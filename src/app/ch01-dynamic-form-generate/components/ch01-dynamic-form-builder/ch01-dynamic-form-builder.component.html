@@ -1,0 +1,114 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+            alt="Your Company" />
+        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+            Dynamic form
+        </h2>
+        {{ dynamicForm && dynamicForm.value | json }}
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form [formGroup]="dynamicForm" class="space-y-6">
+            @for (control of dynamicFormData; track $index) {
+            @if(control.type ==='group') {
+            {{control.type}}
+            <div [formGroupName]="control?.name">
+                @for (item of control?.fields; track $index) {
+                <div>
+                    <label [for]="item.name" class="block text-sm/6 font-medium text-gray-900">{{ item.name |
+                        titlecase }}</label>
+                    <div class="mt-2">
+                        <input [type]="item.type" [name]="item.name" [id]="item.name" [formControlName]="item.name"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    </div>
+                </div>
+                <!-- error -->
+                <!-- {{getFormGroup(control.name).get(item.name)?.errors | json}} -->
+                @if (getFormGroup(control.name).get(item.name)?.errors &&
+                !getFormGroup(control.name).get(item.name)?.pristine) {
+                <app-form-error [errorGroup]="getFormGroup(control.name).get(item.name)?.errors"></app-form-error>
+                }
+                }
+            </div>
+            }
+            @if(control.type !=="group" && control.type !=="select" && control.type !=="checkbox") {
+            <div>
+                <label [for]="control.name" class="block text-sm/6 font-medium text-gray-900">{{ control.name |
+                    titlecase }}</label>
+                <div class="mt-2">
+                    <input [type]="control.type" [name]="control.name" [id]="control.name"
+                        [formControlName]="control.name"
+                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                </div>
+            </div>
+            <!-- error -->
+            @if (getFormControl(control.name)?.errors && !getFormControl(control.name)?.pristine) {
+            <app-form-error [errorGroup]="getFormControl(control.name)?.errors"></app-form-error>
+            }
+            } @if (control.type ==="checkbox") {
+            <div class="flex gap-3">
+                <div class="flex h-6 shrink-0 items-center">
+                    <div class="group grid size-4 grid-cols-1">
+                        <input [id]="control.name" [formControlName]="control.name" [name]="control.name"
+                            type="checkbox"
+                            class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" />
+                        <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
+                            viewBox="0 0 14 14" fill="none">
+                            <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="text-sm/6">
+                    <label for="candidates" class="font-medium text-gray-900">{{
+                        control.label
+                        }}</label>
+                    <p id="candidates-description" class="text-gray-500">
+                        Get notified when a candidate applies for a job.
+                    </p>
+                </div>
+            </div>
+            <!-- error -->
+            @if (getFormControl(control.name)?.errors && !getFormControl(control.name)?.pristine) {
+            <app-form-error [errorGroup]="getFormControl(control.name)?.errors"></app-form-error>
+            }
+            } @if (control.type ==="select") {
+            <div>
+                <label for="location" class="block text-sm/6 font-medium text-gray-900">{{ control.name }}</label>
+                <div class="mt-2 grid grid-cols-1">
+                    <select id="location" name="location" [formControlName]="control.name"
+                        class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                        @for (option of control.options; track $index) {
+                        <option>{{ option }}</option>
+                        }
+                    </select>
+                    <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                        viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd"
+                            d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+            <!-- error -->
+            @if (getFormControl(control.name)?.errors && !getFormControl(control.name)?.pristine) {
+            <app-form-error [errorGroup]="getFormControl(control.name)?.errors"></app-form-error>
+            }
+            } }
+            <div>
+                <button type="submit"
+                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+        <p class="mt-10 text-center text-sm/6 text-gray-500">
+            Not a member?
+            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
+        </p>
+    </div>
+</div>
