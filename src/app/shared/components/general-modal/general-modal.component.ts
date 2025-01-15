@@ -24,7 +24,7 @@ export class GeneralModalComponent implements AfterViewInit {
     this.isShowModal.emit(false);
   }
   onSubmitClick() {
-    this.isShowModal.emit(false);
+    this.isShowModal.emit(true);
   }
   ngAfterViewInit(): void {
     console.log('submit modla', this.submitModal);

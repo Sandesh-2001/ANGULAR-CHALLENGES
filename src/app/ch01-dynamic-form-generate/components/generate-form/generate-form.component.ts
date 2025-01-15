@@ -18,9 +18,18 @@ import { GeneralModalComponent } from '../../../shared/components/general-modal/
   styleUrl: './generate-form.component.css',
 })
 export class GenerateFormComponent implements OnInit {
+  typeOfField: any[] = [
+    'number',
+    'text',
+    'email',
+    'select',
+    'radio',
+    'checkbox',
+    'group',
+  ];
   isShowGeneralModal: boolean = false;
-
-  formName: string = '';
+  isFormCreated: boolean = true;
+  formName: string = 'login';
   generateForm: FormGroup = new FormGroup({});
   formArrayItems: FormArray = new FormArray<any>([]);
   constructor(private fb: FormBuilder) {}
@@ -34,6 +43,7 @@ export class GenerateFormComponent implements OnInit {
 
   generalModalShowHide(value: boolean) {
     console.log('value ');
+    this.isFormCreated = value && this.formName.trim().length !== 0;
     this.isShowGeneralModal = false;
   }
 
