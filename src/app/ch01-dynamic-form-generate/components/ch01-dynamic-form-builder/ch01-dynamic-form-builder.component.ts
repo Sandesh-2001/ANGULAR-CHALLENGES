@@ -9,11 +9,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormErrorComponent } from '../form-error/form-error.component';
+import { GenerateFormComponent } from "../generate-form/generate-form.component";
 
 @Component({
   selector: 'app-ch01-dynamic-form-builder',
   standalone: true,
-  imports: [ReactiveFormsModule, TitleCasePipe, JsonPipe, FormErrorComponent],
+  imports: [ReactiveFormsModule, TitleCasePipe, JsonPipe, FormErrorComponent, GenerateFormComponent],
   templateUrl: './ch01-dynamic-form-builder.component.html',
   styleUrl: './ch01-dynamic-form-builder.component.css',
 })
@@ -23,6 +24,13 @@ export class Ch01DynamicFormBuilderComponent implements OnInit {
       type: 'text',
       label: 'Name',
       name: 'name',
+      placeholder: 'Enter your name',
+      validators: { required: true, minlength: 3 },
+    },
+    {
+      type: 'text',
+      label: 'username',
+      name: 'username',
       placeholder: 'Enter your name',
       validators: { required: true, minlength: 3 },
     },
