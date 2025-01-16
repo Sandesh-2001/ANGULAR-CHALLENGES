@@ -27,15 +27,23 @@ import { JsonPipe } from '@angular/common';
 export class GenerateFormComponent implements OnInit {
   @Output() newControl: EventEmitter<any> = new EventEmitter();
   typeOfField: any[] = [
-    'number',
-    'text',
-    'email',
-    'select',
-    'radio',
-    'checkbox',
-    'group',
+    { field: 'text', disabled: false },
+    { field: 'email', disabled: false },
+    { field: 'number', disabled: false },
+    { field: 'select', disabled: false },
+    { field: 'radio', disabled: false },
+    { field: 'checkbox', disabled: true },
+    { field: 'group', disabled: false },
   ];
-  typeOfFieldsInsideNested: any[] = ['number', 'text', 'email'];
+  typeOfFieldsInsideNested: any[] = [
+    { field: 'text', disabled: false },
+    { field: 'email', disabled: false },
+    { field: 'number', disabled: false },
+    { field: 'select', disabled: true },
+    { field: 'radio', disabled: true },
+    { field: 'checkbox', disabled: true },
+  ];
+  nestedArrayValues: any[] = [];
   isShowGeneralModal: boolean = false;
   isFormCreated: boolean = true;
   formName: string = 'login';
@@ -64,6 +72,23 @@ export class GenerateFormComponent implements OnInit {
       this.generateForm.updateValueAndValidity();
       this.generateForm.get('placeholder')?.setValue(`Enter ${data}`);
       this.generateForm.get('label')?.setValue(`${data}`);
+    });
+    this.nestedFormArray.valueChanges.subscribe((nestedValues) => {
+      console.log('Nested Array Updated:', nestedValues);
+      this.nestedArrayValues = nestedValues;
+      //   console.log(
+      //     'fields',
+      //     (this.generateForm.get('fields') as FormArray)?.controls[0] as FormGroup
+      //   );
+      //   (this.generateForm.get('fields') as FormArray)?.controls &&
+      //     (
+      //       (this.generateForm.get('fields') as FormArray)
+      //         ?.controls[0] as FormGroup
+      //     )
+      //       ?.get('name')
+      //       ?.setValue(nestedValues[0].name, { emitEvent: false });
+      //   // this.generateForm.get('fields')?.setValue(this.nestedFormArray);
+      //   // console.log('gnee', this.generateForm);
     });
   }
   createNewForm() {
@@ -100,9 +125,11 @@ export class GenerateFormComponent implements OnInit {
     this.newControl.emit({
       ...this.generateForm.value,
       options: updatedOption,
+      fields: this.nestedArrayValues,
     });
     this.generateForm.reset();
     this.nestedFormArray = new FormArray<any>([]);
+    this.nestedArrayValues.length = 0;
     while (this.optionsArray.length !== 0) {
       this.optionsArray.removeAt(0);
     }
@@ -142,7 +169,9 @@ export class GenerateFormComponent implements OnInit {
     // console.log('nested group', this.generateForm.controls);
   }
 
-  addNestedControl() {}
+  removeNestedFormField(index: number) {
+    this.nestedFormArray.removeAt(index);
+  }
 
   getFormControl(controlName: string) {
     return this.generateForm.get(controlName);
