@@ -81,4 +81,8 @@ export class Ch01DynamicFormBuilderComponent implements OnInit, OnChanges {
   getFormGroup(groupName: string) {
     return this.dynamicForm.get(groupName) as FormGroup;
   }
+
+  onCustomFormSubmit() {
+    console.log('custom form values', this.dynamicForm.value);
+  }
 }
