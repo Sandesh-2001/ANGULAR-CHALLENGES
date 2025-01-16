@@ -1,0 +1,8 @@
+<div class="grid md:grid-cols-2 lg:grid-cols-2 md:h-[100vh]">
+    <div class=" ">
+        <app-generate-form (newControl)="newControlData($event)"></app-generate-form>
+    </div>
+    <div class="md:overflow-y-auto sm:overflow-y-hidden ">
+        <app-ch01-dynamic-form-builder [formDataArray]="formDataArray"></app-ch01-dynamic-form-builder>
+    </div>
+</div>
