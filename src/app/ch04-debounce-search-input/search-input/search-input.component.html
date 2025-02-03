@@ -1,7 +1,8 @@
-<div>
+<div class="">
+    <p>{{inputItems[highlightIndex]?.name}}</p>
     <label for="combobox" class="block text-sm/6 font-medium text-gray-900">Name</label>
     <div class="relative mt-2">
-        <input #inpRef id="combobox" type="text"
+        <input #inpRef id="combobox" type="text" [autocomplete]="false"
             class="block w-full rounded-md bg-white py-1.5 pl-3 pr-12 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             role="combobox" aria-controls="options" aria-expanded="false" [placeholder]="placeholder">
         <!-- <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -13,7 +14,8 @@
             </svg>
         </button> -->
 
-        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+        <ul #ul
+            class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
             id="options" role="listbox">
             <!--
           Combobox option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
@@ -21,7 +23,8 @@
           Active: "text-white bg-indigo-600 outline-none", Not Active: "text-gray-900"
         -->
             @for (item of inputItems; track $index) {
-            <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="option-0" role="option"
+            <li [class]="($index===highlightIndex)?'bg-red-500':'' "
+                class="relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900" id="option-0" role="option"
                 tabindex="-1">
                 <div class="flex">
                     <!-- Selected: "font-semibold" -->
