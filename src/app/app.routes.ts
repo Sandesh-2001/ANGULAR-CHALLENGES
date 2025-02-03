@@ -1,17 +1,25 @@
 import { Routes } from '@angular/router';
-import { Child01Component } from './ch02-content-projection/components/child01/child01.component';
-import { Ch01DynamicFormBuilderComponent } from './ch01-dynamic-form-generate/components/ch01-dynamic-form-builder/ch01-dynamic-form-builder.component';
-import { Ch02ContentProjectionParentComponent } from './ch02-content-projection/ch02-content-projection-parent/ch02-content-projection-parent.component';
 import { DynamicFormComponent } from './ch01-dynamic-form-generate/components/dynamic-form/dynamic-form.component';
+import { ParentComponent } from './ch02-content-projection/parent/parent.component';
+import { ParentDropdownComponent } from './ch03-dropdown/parent-dropdown/parent-dropdown.component';
+import { DebounceSearchInputComponent } from './ch04-debounce-search-input/debounce-search-input/debounce-search-input.component';
 
 export const routes: Routes = [
   {
-    path: 'ch01-dynamic-form',
+    path: 'ch01',
     component: DynamicFormComponent,
   },
   {
-    path: 'ch02-content-projection',
-    component: Ch02ContentProjectionParentComponent,
+    path: 'ch02',
+    component: ParentComponent,
+  },
+  {
+    path: 'ch03',
+    component: ParentDropdownComponent,
+  },
+  {
+    path: 'ch04',
+    component: DebounceSearchInputComponent,
   },
   // {
 

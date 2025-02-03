@@ -1,0 +1,9 @@
+<app-dropdown [options]="dropdownOptions" (selectionChange)="onOptionSelected($event)"
+    [placeholder]="'Select an option'" [enableSearch]="true">
+    <ng-template let-option let-index="index" #optionTemplate>
+        <span>
+            <img [src]="option?.icon" alt="icon" width="20" height="20">
+            {{index}} {{ option?.display }}
+        </span>
+    </ng-template>
+</app-dropdown>
